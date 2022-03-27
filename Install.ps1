@@ -4,6 +4,25 @@ function Check-Command($cmdname) {
     return [bool](Get-Command -Name $cmdname -ErrorAction SilentlyContinue)
 }
 
+function AddToPath {
+    param (
+        [string]$folder
+    )
+
+    Write-Host "Adding $folder to environment variables..." -ForegroundColor Yellow
+
+    $currentEnv = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::Machine).Trim(";");
+    $addedEnv = $currentEnv + ";$folder"
+    $trimmedEnv = (($addedEnv.Split(';') | Select-Object -Unique) -join ";").Trim(";")
+    [Environment]::SetEnvironmentVariable(
+        "Path",
+        $trimmedEnv,
+        [EnvironmentVariableTarget]::Machine)
+
+    #Write-Host "Reloading environment variables..." -ForegroundColor Green
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+}
+
 # -----------------------------------------------------------------------------
 $computerName = Read-Host 'Enter New Computer Name'
 Write-Host "Renaming this computer to: " $computerName  -ForegroundColor Yellow
@@ -102,7 +121,6 @@ $Apps = @(
     "git",
     "googlechrome",
     "vlc",
-    "ffmpeg",
     "vscode",
     "sysinternals",
     "notepadplusplus.install",
@@ -129,6 +147,118 @@ Write-Host "------------------------------------" -ForegroundColor Green
 git config --global user.email "edi.wang@outlook.com"
 git config --global user.name "Edi Wang"
 git config --global core.autocrlf true
+
+
+#aria2
+if ($true)
+{
+    Write-Host "Installing aria2 as download tool..." -ForegroundColor Green
+    Write-Host "------------------------------------" -ForegroundColor Green
+    $downloadAddress = "https://github.com/aria2/aria2/releases/download/release-1.36.0/aria2-1.36.0-win-64bit-build1.zip"
+    Invoke-WebRequest $downloadAddress -OutFile "$HOME\aria2.zip"
+    $installPath = "${env:ProgramFiles}\aria2"
+    & "${env:ProgramFiles}\7-Zip\7z.exe" x "$HOME\aria2.zip" "-o$($installPath)" -y
+    $subPath = $(Get-ChildItem -Path $installPath | Where-Object { $_.Name -like "aria2-*" } | Sort-Object Name -Descending | Select-Object -First 1).Name
+    $subPath = Join-Path -Path $installPath -ChildPath $subPath
+    Remove-Item $installPath\aria2c.exe -ErrorAction SilentlyContinue
+    Move-Item $subPath\aria2c.exe $installPath
+    AddToPath -folder $installPath
+    Remove-Item -Path "$HOME\aria2.zip" -Force
+}
+
+# Chromium
+if ($true) { 
+    Write-Host "Installing Chromium as backup browser (For second Teams\AAD usage)..." -ForegroundColor Green
+    Write-Host "------------------------------------" -ForegroundColor Green
+    $chromiumUrl = "https://download-chromium.appspot.com/dl/Win_x64?type=snapshots"
+    $chromiumPath = "${env:ProgramFiles}\Chromium"
+    
+    $downloadedChromium = $env:USERPROFILE + "\chrome-win.zip"
+    Remove-Item $downloadedChromium -ErrorAction SilentlyContinue
+    aria2c.exe $chromiumUrl -d $HOME -o "chrome-win.zip"
+    
+    & "${env:ProgramFiles}\7-Zip\7z.exe" x $downloadedChromium "-o$($chromiumPath)" -y
+    
+    $shortCutPath = $env:USERPROFILE + "\Start Menu\Programs" + "\Chromium.lnk"
+    Remove-Item -Path $shortCutPath -Force -ErrorAction SilentlyContinue
+    $objShell = New-Object -ComObject ("WScript.Shell")
+    $objShortCut = $objShell.CreateShortcut($shortCutPath)
+    $objShortCut.TargetPath = "$chromiumPath\chrome-win\Chrome.exe"
+    $objShortCut.Save()
+
+    Remove-Item -Path $downloadedChromium -Force
+}
+
+# Android CLI
+if ($true) {
+    Write-Host "Downloading Android-Platform-Tools (To connect to Android Phone)..." -ForegroundColor Green
+    Write-Host "------------------------------------" -ForegroundColor Green
+    $toolsPath = "${env:ProgramFiles}\Android-Platform-Tools"
+    $downloadUri = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip"
+    
+    $downloadedTool = $env:USERPROFILE + "\platform-tools-latest-windows.zip"
+    Remove-Item $downloadedTool -ErrorAction SilentlyContinue
+    aria2c.exe $downloadUri -d $HOME -o "platform-tools-latest-windows.zip"
+    
+    & ${env:ProgramFiles}\7-Zip\7z.exe x $downloadedTool "-o$($toolsPath)" -y
+    AddToPath -folder "$toolsPath\platform-tools"
+    Remove-Item -Path $downloadedTool -Force
+}
+
+# FFmpeg
+if ($true) {
+    Write-Host "Downloading FFmpeg..." -ForegroundColor Green
+    Write-Host "------------------------------------" -ForegroundColor Green
+    $ffmpegPath = "${env:ProgramFiles}\FFMPEG"
+    $downloadUri = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z"
+    
+    $downloadedFfmpeg = $env:USERPROFILE + "\ffmpeg-git-full.7z"
+    Remove-Item $downloadedFfmpeg -ErrorAction SilentlyContinue
+    aria2c.exe $downloadUri -d $HOME -o "ffmpeg-git-full.7z"
+
+    & ${env:ProgramFiles}\7-Zip\7z.exe x $downloadedFfmpeg "-o$($ffmpegPath)" -y
+    $subPath = $(Get-ChildItem -Path $ffmpegPath | Where-Object { $_.Name -like "ffmpeg*" } | Sort-Object Name -Descending | Select-Object -First 1).Name
+    $subPath = Join-Path -Path $ffmpegPath -ChildPath $subPath
+    $binPath = Join-Path -Path $subPath -ChildPath "bin"
+    Remove-Item $ffmpegPath\*.exe
+    Move-Item $binPath\*.exe $ffmpegPath
+
+    Write-Host "Adding FFmpeg to PATH..." -ForegroundColor Green
+    AddToPath -folder $ffmpegPath
+    Remove-Item -Path $downloadedFfmpeg -Force
+}
+
+# Kubernetes CLI
+if ($true) {
+    Write-Host "Downloading Kubernetes CLI..." -ForegroundColor Green
+    Write-Host "------------------------------------" -ForegroundColor Green
+    $toolsPath = "${env:ProgramFiles}\Kubernetes"
+    $downloadUri = "https://dl.k8s.io/release/v1.23.0/bin/windows/amd64/kubectl.exe"
+    
+    $downloadedTool = $env:USERPROFILE + "\kubectl.exe"
+    Remove-Item $downloadedTool -ErrorAction SilentlyContinue
+    aria2c.exe $downloadUri -d $HOME -o "kubectl.exe"
+    
+    New-Item -Type Directory -Path "${env:ProgramFiles}\Kubernetes" -ErrorAction SilentlyContinue
+    Move-Item $downloadedTool "$toolsPath\kubectl.exe" -Force
+    AddToPath -folder $toolsPath
+}
+
+# wget
+if ($true) {
+    Write-Host "Downloading Wget because some app may need it..." -ForegroundColor Green
+    Write-Host "------------------------------------" -ForegroundColor Green
+    $wgetPath = "${env:ProgramFiles}\wget"
+    $downloadUri = "https://eternallybored.org/misc/wget/releases/wget-1.21.3-win64.zip"
+    $downloadedWget = $env:USERPROFILE + "\wget-1.21.3-win64.zip"
+    Remove-Item $downloadedWget -ErrorAction SilentlyContinue
+    aria2c.exe $downloadUri -d $HOME -o "wget-1.21.3-win64.zip"
+    
+    & ${env:ProgramFiles}\7-Zip\7z.exe x $downloadedWget "-o$($wgetPath)" -y
+    Write-Host "Adding wget to PATH..." -ForegroundColor Green
+    AddToPath -folder $wgetPath
+    Remove-Item -Path $downloadedWget -Force
+}
 
 Write-Host "Setting up dotnet for Windows..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
