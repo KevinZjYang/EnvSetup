@@ -55,17 +55,25 @@ $uwpRubbishApps = @(
     "Microsoft.Messaging",
     "king.com.CandyCrushSaga",
     "Microsoft.BingNews",
+    "Microsoft.BingWeather",
     "Microsoft.MicrosoftSolitaireCollection",
+    "Microsoft.WindowsSoundRecorder",
+    "Microsoft.PowerAutomateDesktop",
+    "MicrosoftTeams", # Teams personal. Trash.
     "Microsoft.People",
     "Microsoft.WindowsFeedbackHub",
     "Microsoft.YourPhone",
     "Microsoft.MicrosoftOfficeHub",
+    "Microsoft.ZuneMusic",
+    "Microsoft.ZuneVideo",
+    "*549981C3F5F10*" # Cortana
     "Fitbit.FitbitCoach",
     "4DF9E0F8.Netflix",
+    "Microsoft.Getstarted",
     "Microsoft.GetHelp")
 
 foreach ($uwp in $uwpRubbishApps) {
-    Get-AppxPackage -Name $uwp | Remove-AppxPackage
+    Get-AppxPackage -Name $uwp | Remove-AppxPackage -AllUsers
 }
 # -----------------------------------------------------------------------------
 Write-Host ""
