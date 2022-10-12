@@ -33,6 +33,10 @@ function Remove-UWP {
     Get-AppxPackage $name | Remove-AppxPackage -AllUsers
 }
 
+
+Write-Host "OS Info:" -ForegroundColor Green
+Get-CimInstance Win32_OperatingSystem | Format-List Name, Version, InstallDate, OSArchitecture
+(Get-ItemProperty HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0\).ProcessorNameString
 # -----------------------------------------------------------------------------
 $computerName = Read-Host 'Enter New Computer Name'
 Write-Host "Renaming this computer to: " $computerName  -ForegroundColor Yellow
