@@ -30,7 +30,7 @@ function Remove-UWP {
 
     Write-Host "Removing UWP $name..." -ForegroundColor Yellow
     Get-AppxPackage $name | Remove-AppxPackage
-    Get-AppxPackage $name | Remove-AppxPackage -AKubernetes CLIllUsers
+    Get-AppxPackage $name | Remove-AppxPackage -AllUsers
 }
 
 
@@ -260,7 +260,7 @@ if ($true) {
 
 # Kubernetes CLI
 if ($true) {
-    Write-Host "Downloading ..." -ForegroundColor Green
+    Write-Host "Downloading Kubernetes CLI..." -ForegroundColor Green
     Write-Host "------------------------------------" -ForegroundColor Green
     $toolsPath = "${env:ProgramFiles}\Kubernetes"
     $downloadUri = "https://dl.k8s.io/release/v1.25.0/bin/windows/amd64/kubectl.exe"
