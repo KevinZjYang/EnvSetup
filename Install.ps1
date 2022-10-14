@@ -263,7 +263,7 @@ if ($true) {
     Write-Host "Downloading Kubernetes CLI..." -ForegroundColor Green
     Write-Host "------------------------------------" -ForegroundColor Green
     $toolsPath = "${env:ProgramFiles}\Kubernetes"
-    $downloadUri = "https://dl.k8s.io/release/v1.23.0/bin/windows/amd64/kubectl.exe"
+    $downloadUri = "https://dl.k8s.io/release/v1.25.0/bin/windows/amd64/kubectl.exe"
     
     $downloadedTool = $env:USERPROFILE + "\kubectl.exe"
     Remove-Item $downloadedTool -ErrorAction SilentlyContinue
