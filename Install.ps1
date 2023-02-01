@@ -150,7 +150,6 @@ $Apps = @(
     "vlc",
     "vscode",
     "sysinternals",
-    "notepadplusplus.install",
     "linqpad",
     "postman",
     "nuget.commandline",
