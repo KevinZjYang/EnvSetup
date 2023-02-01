@@ -44,7 +44,6 @@ Import "Add_PS1_Run_as_administrator.reg" to your registry to enable context men
     - FileZilla
     - NuGet Command Line
     - Postman
-    - Notepad++
     - Visual Studio Code
     - DotPeek
     - LINQPad
