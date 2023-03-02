@@ -33,24 +33,20 @@ function Remove-UWP {
     Get-AppxPackage $name | Remove-AppxPackage -AllUsers
 }
 
-# 输出系统信息
 Write-Host "OS Info:" -ForegroundColor Green
 Get-CimInstance Win32_OperatingSystem | Format-List Name, Version, InstallDate, OSArchitecture
 (Get-ItemProperty HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0\).ProcessorNameString
 # -----------------------------------------------------------------------------
-# 重命名电脑名称
 $computerName = Read-Host 'Enter New Computer Name'
 Write-Host "Renaming this computer to: " $computerName  -ForegroundColor Yellow
 Rename-Computer -NewName $computerName
 # -----------------------------------------------------------------------------
-# 关掉电脑睡眠,防止安装过程停止
 Write-Host ""
 Write-Host "Disable Sleep on AC Power..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
 Powercfg /Change monitor-timeout-ac 20
 Powercfg /Change standby-timeout-ac 0
 # -----------------------------------------------------------------------------
-# 桌面添加我的电脑图标
 Write-Host ""
 Write-Host "Add 'This PC' Desktop Icon..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
@@ -66,7 +62,6 @@ else {
 
 # To list all appx packages:
 # Get-AppxPackage | Format-Table -Property Name,Version,PackageFullName
-# 删除无用的UWP应用
 Write-Host "Removing UWP Rubbish..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
 # $uwpRubbishApps = @(
@@ -121,7 +116,6 @@ foreach ($uwp in $uwpRubbishApps) {
     Remove-UWP $uwp
 }
 # -----------------------------------------------------------------------------
-# 更新UWP
 Write-Host ""
 Write-Host "Starting UWP apps to upgrade..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
@@ -143,7 +137,6 @@ $result = $wmiObj.UpdateScanMethod()
 # Enable-WindowsOptionalFeature -Online -FeatureName IIS-BasicAuthentication
 # Enable-WindowsOptionalFeature -Online -FeatureName IIS-WindowsAuthentication
 # -----------------------------------------------------------------------------
-# 打开开发人员模式
 Write-Host ""
 Write-Host "Enable Windows 10 Developer Mode..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
@@ -157,7 +150,6 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUn
 # Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\" -Name "UserAuthentication" -Value 1
 # Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
-# 安装choco,并安装必装应用
 if (Check-Command -cmdname 'choco') {
     Write-Host "Choco is already installed, skip installation."
 }
@@ -225,7 +217,6 @@ foreach ($app in $Apps) {
 #     Remove-Item -Path "$HOME\aria2.zip" -Force
 # }
 
-# Chromium,edge很好用啊
 # if ($true) { 
 #     Write-Host "Installing Chromium as backup browser (For second Teams\AAD usage)..." -ForegroundColor Green
 #     Write-Host "------------------------------------" -ForegroundColor Green
@@ -333,17 +324,15 @@ foreach ($app in $Apps) {
 # $LanguageList.Add("zh-CN")
 # Set-WinUserLanguageList $LanguageList -Force
 
-# 文件资源管理器设置
 Write-Host "Applying file explorer settings..." -ForegroundColor Green
 cmd.exe /c "reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v HideFileExt /t REG_DWORD /d 0 /f"
 cmd.exe /c "reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v AutoCheckSelect /t REG_DWORD /d 0 /f"
 cmd.exe /c "reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v LaunchTo /t REG_DWORD /d 1 /f"
 
-# 设置时区
 Write-Host "Setting Time zone..." -ForegroundColor Green
 Set-TimeZone -Name "China Standard Time"
 
-# 从Windows defender中排除这些文件夹;"USERPROFILE"用户文件夹,等同于%USERPROFILE%
+# like %USERPROFILE%
 # Write-Host "Excluding repos from Windows Defender..." -ForegroundColor Green
 # Add-MpPreference -ExclusionPath "$env:USERPROFILE\source\repos"
 # Add-MpPreference -ExclusionPath "$env:USERPROFILE\.nuget"
@@ -352,22 +341,19 @@ Set-TimeZone -Name "China Standard Time"
 # Add-MpPreference -ExclusionPath "$env:USERPROFILE\.ssh"
 # Add-MpPreference -ExclusionPath "$env:APPDATA\npm"
 
-# 开启硬件加速GPU计划,一般系统默认开启的.备注:开启后使用moonlight串流可能导致画面卡住,声音还在.
+# moonlight maybe get trouble.
 Write-Host "Enabling Hardware-Accelerated GPU Scheduling..." -ForegroundColor Green
 New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\" -Name 'HwSchMode' -Value '2' -PropertyType DWORD -Force
 
-# Azure开发使用,用不到
 # Write-Host "Installing Github.com/microsoft/artifacts-credprovider..." -ForegroundColor Green
 # Write-Host "------------------------------------" -ForegroundColor Green
 # Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/microsoft/artifacts-credprovider/master/helpers/installcredprovider.ps1'))
 
-# 不理解为啥要删除
 # Write-Host "Removing Bluetooth icons..." -ForegroundColor Green
 # Write-Host "------------------------------------" -ForegroundColor Green
 # cmd.exe /c "reg add `"HKCU\Control Panel\Bluetooth`" /v `"Notification Area Icon`" /t REG_DWORD /d 0 /f"
 
 # -----------------------------------------------------------------------------
-# 检查Windows更新,安装后重启
 Write-Host ""
 Write-Host "Checking Windows updates..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
@@ -376,7 +362,6 @@ Write-Host "Installing updates... (Computer will reboot in minutes...)" -Foregro
 Get-WindowsUpdate -AcceptAll -Install -ForceInstall -AutoReboot
 
 # -----------------------------------------------------------------------------
-# 重启计算机
 Write-Host "------------------------------------" -ForegroundColor Green
 Read-Host -Prompt "Setup is done, restart is needed, press [ENTER] to restart computer."
 Restart-Computer
