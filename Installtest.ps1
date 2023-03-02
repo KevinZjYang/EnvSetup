@@ -122,13 +122,13 @@ foreach ($uwp in $uwpRubbishApps) {
 }
 # -----------------------------------------------------------------------------
 # 更新UWP
-Write-Host ""
-Write-Host "Starting UWP apps to upgrade..." -ForegroundColor Green
-Write-Host "------------------------------------" -ForegroundColor Green
-$namespaceName = "root\cimv2\mdm\dmmap"
-$className = "MDM_EnterpriseModernAppManagement_AppManagement01"
-$wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
-$result = $wmiObj.UpdateScanMethod()
+# Write-Host ""
+# Write-Host "Starting UWP apps to upgrade..." -ForegroundColor Green
+# Write-Host "------------------------------------" -ForegroundColor Green
+# $namespaceName = "root\cimv2\mdm\dmmap"
+# $className = "MDM_EnterpriseModernAppManagement_AppManagement01"
+# $wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
+# $result = $wmiObj.UpdateScanMethod()
 # -----------------------------------------------------------------------------
 # Write-Host ""
 # Write-Host "Installing IIS..." -ForegroundColor Green
@@ -174,25 +174,10 @@ Write-Host "------------------------------------" -ForegroundColor Green
 Write-Host "[WARN] Ma de in China: some software like Google Chrome require the true Internet first" -ForegroundColor Yellow
 
 $Apps = @(
-    "7zip.install",
-    "git",
-    "googlechrome",
-    "vlc",
-    "vscode",
-    "sysinternals",
-    "linqpad",
-    "postman",
-    "nuget.commandline",
-    "beyondcompare",
-    "filezilla",
-    "microsoft-teams.install",
-    "github-desktop",
-    "irfanview",
-    "nodejs-lts",
-    "azure-cli",
-    "powershell-core",
-    "chocolateygui",
-    "obs-studio")
+    "wechat",
+    "tencentqq",
+    "tencentmeeting"
+    )
 
 foreach ($app in $Apps) {
     choco install $app -y
@@ -353,8 +338,8 @@ Set-TimeZone -Name "China Standard Time"
 # Add-MpPreference -ExclusionPath "$env:APPDATA\npm"
 
 # 开启硬件加速GPU计划,一般系统默认开启的.备注:开启后使用moonlight串流可能导致画面卡住,声音还在.
-Write-Host "Enabling Hardware-Accelerated GPU Scheduling..." -ForegroundColor Green
-New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\" -Name 'HwSchMode' -Value '2' -PropertyType DWORD -Force
+# Write-Host "Enabling Hardware-Accelerated GPU Scheduling..." -ForegroundColor Green
+# New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\" -Name 'HwSchMode' -Value '2' -PropertyType DWORD -Force
 
 # Azure开发使用,用不到
 # Write-Host "Installing Github.com/microsoft/artifacts-credprovider..." -ForegroundColor Green
@@ -368,15 +353,15 @@ New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\"
 
 # -----------------------------------------------------------------------------
 # 检查Windows更新,安装后重启
-Write-Host ""
-Write-Host "Checking Windows updates..." -ForegroundColor Green
-Write-Host "------------------------------------" -ForegroundColor Green
-Install-Module -Name PSWindowsUpdate -Force
-Write-Host "Installing updates... (Computer will reboot in minutes...)" -ForegroundColor Green
-Get-WindowsUpdate -AcceptAll -Install -ForceInstall -AutoReboot
+# Write-Host ""
+# Write-Host "Checking Windows updates..." -ForegroundColor Green
+# Write-Host "------------------------------------" -ForegroundColor Green
+# Install-Module -Name PSWindowsUpdate -Force
+# Write-Host "Installing updates... (Computer will reboot in minutes...)" -ForegroundColor Green
+# Get-WindowsUpdate -AcceptAll -Install -ForceInstall -AutoReboot
 
 # -----------------------------------------------------------------------------
 # 重启计算机
-Write-Host "------------------------------------" -ForegroundColor Green
-Read-Host -Prompt "Setup is done, restart is needed, press [ENTER] to restart computer."
-Restart-Computer
+# Write-Host "------------------------------------" -ForegroundColor Green
+# Read-Host -Prompt "Setup is done, restart is needed, press [ENTER] to restart computer."
+# Restart-Computer
