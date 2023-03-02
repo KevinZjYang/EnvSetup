@@ -15,6 +15,7 @@ Open Windows PowerShell(Admin)
 
 ```powershell
 iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/EdiWang/EnvSetup/master/Install.ps1'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/KevinZjYang/EnvSetup/master/Install.ps1'))
 iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/KevinZjYang/EnvSetup/master/Installtest.ps1'))
 ```
 ### Optional
