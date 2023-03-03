@@ -37,9 +37,9 @@ Write-Host "OS Info:" -ForegroundColor Green
 Get-CimInstance Win32_OperatingSystem | Format-List Name, Version, InstallDate, OSArchitecture
 (Get-ItemProperty HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0\).ProcessorNameString
 # -----------------------------------------------------------------------------
-$computerName = Read-Host 'Enter New Computer Name'
-Write-Host "Renaming this computer to: " $computerName  -ForegroundColor Yellow
-Rename-Computer -NewName $computerName
+# $computerName = Read-Host 'Enter New Computer Name'
+# Write-Host "Renaming this computer to: " $computerName  -ForegroundColor Yellow
+# Rename-Computer -NewName $computerName
 # -----------------------------------------------------------------------------
 Write-Host ""
 Write-Host "Disable Sleep on AC Power..." -ForegroundColor Green

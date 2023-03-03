@@ -116,8 +116,7 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUn
 Write-Host ""
 Write-Host "Installing Applications..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
-Write-Host "[WARN] Ma de in China: some software like Google Chrome require the true Internet first" -ForegroundColor Yellow
-setx path /m %path%;%LOCALAPPDATA%\Microsoft\WindowsApps 
+$env:path+=";$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps"
 
 $Apps = @(
     "7zip.7zip",
@@ -137,19 +136,6 @@ $Apps = @(
     "Tencent.TencentMeeting",
     "Tencent.WeChat",
     "Git.Git")
-# $Apps = @(
-#     "wechat",
-#     "tencentqq",
-#     "tencentmeeting",
-#     "everything",
-#     "nextcloud-client",
-#     "dingtalk",
-#     "7zip.install",
-#     "git",
-#     "vscode",
-#     "github-desktop",,
-#     "obs-studio",
-#     )
 
 foreach ($app in $Apps) {
     winget install --id $app --silent
