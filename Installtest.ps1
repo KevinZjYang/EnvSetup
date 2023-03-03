@@ -30,14 +30,20 @@ Write-Host "------------------------------------" -ForegroundColor Green
 Write-Host "[WARN] Ma de in China: some software like Google Chrome require the true Internet first" -ForegroundColor Yellow
 
 $Apps = @(
-    "wechat",
-    "tencentqq",
-    "tencentmeeting"
+    "powertoys"
     )
 # $Apps = @(
 #     "wechat",
 #     "tencentqq",
-#     "tencentmeeting"
+#     "tencentmeeting",
+#     "everything",
+#     "nextcloud-client",
+#     "dingtalk",
+#     "7zip.install",
+#     "git",
+#     "vscode",
+#     "github-desktop",,
+#     "obs-studio",
 #     )
 
 foreach ($app in $Apps) {
