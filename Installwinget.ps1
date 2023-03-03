@@ -135,10 +135,11 @@ $Apps = @(
     "Tencent.QQ",
     "Tencent.TencentMeeting",
     "Tencent.WeChat",
-    "Git.Git")
+    "Git.Git",
+    "Kingsoft.WPSOffice.CN")
 
 foreach ($app in $Apps) {
-    winget install --id $app --silent
+    winget install --id $app --silent --exact --source winget --accept-source-agreements --force
 }
 
 Write-Host "Setting up Git for Windows..." -ForegroundColor Green
