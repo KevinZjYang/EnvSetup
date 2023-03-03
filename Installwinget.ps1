@@ -14,15 +14,15 @@ function Remove-UWP {
     Get-AppxPackage $name | Remove-AppxPackage -AllUsers
 }
 
-if (Check-Command -cmdname 'choco') {
-    Write-Host "Choco is already installed, skip installation."
-}
-else {
-    Write-Host ""
-    Write-Host "Installing Chocolate for Windows..." -ForegroundColor Green
-    Write-Host "------------------------------------" -ForegroundColor Green
-    Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-}
+# if (Check-Command -cmdname 'choco') {
+#     Write-Host "Choco is already installed, skip installation."
+# }
+# else {
+#     Write-Host ""
+#     Write-Host "Installing Chocolate for Windows..." -ForegroundColor Green
+#     Write-Host "------------------------------------" -ForegroundColor Green
+#     Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+# }
 
 Write-Host ""
 Write-Host "Installing Applications..." -ForegroundColor Green
@@ -30,7 +30,22 @@ Write-Host "------------------------------------" -ForegroundColor Green
 Write-Host "[WARN] Ma de in China: some software like Google Chrome require the true Internet first" -ForegroundColor Yellow
 
 $Apps = @(
-    "powertoys"
+    "7zip.7zip",
+    "voidtools.Everything",
+    "GitHub.GitHubDesktop",
+    "Microsoft.VisualStudioCode",
+    "Nextcloud.NextcloudDesktop",
+    "OBSProject.OBSStudio",
+    "Microsoft.PowerToys",
+    "Tencent.QQMusic",
+    "Youqu.ToDesk",
+    "Baidu.BaiduNetdisk",
+    "Bilibili.Livehime",
+    "Alibaba.DingTalk",
+    "Tencent.WeSing",
+    "Tencent.QQ",
+    "Tencent.TencentMeeting",
+    "Tencent.WeChat"
     )
 # $Apps = @(
 #     "wechat",
@@ -47,6 +62,6 @@ $Apps = @(
 #     )
 
 foreach ($app in $Apps) {
-    choco install $app -y
+    winget.exe install $app -h
 }
 
