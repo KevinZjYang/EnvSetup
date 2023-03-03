@@ -117,6 +117,7 @@ Write-Host ""
 Write-Host "Installing Applications..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
 Write-Host "[WARN] Ma de in China: some software like Google Chrome require the true Internet first" -ForegroundColor Yellow
+setx path /m %path%;%LOCALAPPDATA%\Microsoft\WindowsApps 
 
 $Apps = @(
     "7zip.7zip",
@@ -134,8 +135,8 @@ $Apps = @(
     "Tencent.WeSing",
     "Tencent.QQ",
     "Tencent.TencentMeeting",
-    "Tencent.WeChat"
-    )
+    "Tencent.WeChat",
+    "Git.Git")
 # $Apps = @(
 #     "wechat",
 #     "tencentqq",
