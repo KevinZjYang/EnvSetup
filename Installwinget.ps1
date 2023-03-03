@@ -143,7 +143,7 @@ foreach ($app in $Apps) {
 
 Write-Host "Setting up Git for Windows..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
-git config --global user.email "yzj0308@hotmail.com"
+git config --global user.email "kevin.zj.yang@outlook.com"
 git config --global user.name "KevinZjYang"
 git config --global core.autocrlf true
 
