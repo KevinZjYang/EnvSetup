@@ -91,7 +91,8 @@ $uwpRubbishApps = @(
     "Microsoft.Microsoft3DViewer"
     "Microsoft.WindowsMaps"
     "Microsoft.MixedReality.Portal"
-    "Microsoft.SkypeApp")
+    "Microsoft.SkypeApp"
+    "Clipchamp.Clipchamp_yxz26nhyzhsrt")
 
 foreach ($uwp in $uwpRubbishApps) {
     Remove-UWP $uwp
@@ -136,7 +137,9 @@ $Apps = @(
     "Tencent.TencentMeeting",
     "Tencent.WeChat",
     "Git.Git",
-    "Kingsoft.WPSOffice.CN")
+    "Kingsoft.WPSOffice.CN",
+    "Microsoft.PowerShell",
+    "Telegram.TelegramDesktop")
 
 foreach ($app in $Apps) {
     winget install --id $app --silent --exact --source winget --accept-source-agreements --force
