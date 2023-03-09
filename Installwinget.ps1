@@ -145,7 +145,8 @@ $Apps = @(
     "Kingsoft.WPSOffice.CN",
     "Microsoft.PowerShell",
     "Telegram.TelegramDesktop",
-    "RARLab.WinRAR")
+    "RARLab.WinRAR",
+    "SomePythonThings.WingetUIStore")
 
 foreach ($app in $Apps) {
     winget install --id $app --silent --exact --source winget --accept-source-agreements --force
