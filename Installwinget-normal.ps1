@@ -45,31 +45,7 @@ else {
 # Get-AppxPackage | Format-Table -Property Name,Version,PackageFullName
 Write-Host "Removing UWP Rubbish..." -ForegroundColor Green
 Write-Host "------------------------------------" -ForegroundColor Green
-# $uwpRubbishApps = @(
-#     "Microsoft.MSPaint"
-#     "Microsoft.Microsoft3DViewer"
-#     "Microsoft.ZuneMusic"
-#     "Microsoft.ZuneVideo"
-#     "*549981C3F5F10*"
-#     "Microsoft.WindowsSoundRecorder"
-#     "Microsoft.PowerAutomateDesktop"
-#     "Microsoft.BingWeather"
-#     "Microsoft.BingNews"
-#     "king.com.CandyCrushSaga"
-#     "Microsoft.Messaging"
-#     "Microsoft.WindowsFeedbackHub"
-#     "Microsoft.MicrosoftOfficeHub"
-#     "Microsoft.MicrosoftSolitaireCollection"
-#     "4DF9E0F8.Netflix"
-#     "Microsoft.GetHelp"
-#     "Microsoft.People"
-#     "Microsoft.YourPhone"
-#     "MicrosoftTeams"
-#     "Microsoft.Getstarted"
-#     "Microsoft.Microsoft3DViewer"
-#     "Microsoft.WindowsMaps"
-#     "Microsoft.MixedReality.Portal"
-#     "Microsoft.SkypeApp")
+
 $uwpRubbishApps = @(
     "Microsoft.ZuneMusic"
     "Microsoft.ZuneVideo"
@@ -144,12 +120,6 @@ $Apps = @(
 foreach ($app in $Apps) {
     winget install --id $app --silent --exact --source winget --accept-source-agreements --force
 }
-
-Write-Host "Setting up Git for Windows..." -ForegroundColor Green
-Write-Host "------------------------------------" -ForegroundColor Green
-git config --global user.email "kevin.zj.yang@outlook.com"
-git config --global user.name "KevinZjYang"
-git config --global core.autocrlf true
 
 Write-Host "Applying file explorer settings..." -ForegroundColor Green
 cmd.exe /c "reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v HideFileExt /t REG_DWORD /d 0 /f"
