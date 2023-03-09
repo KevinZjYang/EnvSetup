@@ -146,7 +146,9 @@ $Apps = @(
     "Microsoft.PowerShell",
     "Telegram.TelegramDesktop",
     "RARLab.WinRAR",
-    "SomePythonThings.WingetUIStore")
+    "SomePythonThings.WingetUIStore",
+    "Ubisoft.Connect",
+    "EpicGames.EpicGamesLauncher")
 
 foreach ($app in $Apps) {
     winget install --id $app --silent --exact --source winget --accept-source-agreements --force
