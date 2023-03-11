@@ -115,7 +115,9 @@ $Apps = @(
     "Tencent.WeChat",
     "Kingsoft.WPSOffice.CN",
     "Microsoft.PowerShell",
-    "RARLab.WinRAR")
+    "RARLab.WinRAR",
+    "SomePythonThings.WingetUIStore",
+    "VideoLAN.VLC")
 
 foreach ($app in $Apps) {
     winget install --id $app --silent --exact --source winget --accept-source-agreements --force

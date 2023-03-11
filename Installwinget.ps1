@@ -148,7 +148,8 @@ $Apps = @(
     "RARLab.WinRAR",
     "SomePythonThings.WingetUIStore",
     "Ubisoft.Connect",
-    "EpicGames.EpicGamesLauncher")
+    "EpicGames.EpicGamesLauncher",
+    "VideoLAN.VLC")
 
 foreach ($app in $Apps) {
     winget install --id $app --silent --exact --source winget --accept-source-agreements --force
