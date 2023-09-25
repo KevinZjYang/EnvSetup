@@ -142,7 +142,6 @@ $Apps = @(
     "Tencent.TencentMeeting",
     "Tencent.WeChat",
     "Git.Git",
-    "Kingsoft.WPSOffice.CN",
     "Microsoft.PowerShell",
     "Telegram.TelegramDesktop",
     "RARLab.WinRAR",
